@@ -1,13 +1,14 @@
-### 3.5. 创建repository实例
+# 3.5 创建repository实例
 
-在这个部分，你创建实例和为repository接口定义的bean。这样做的一个方法是使用Spring的名称空间，这是与每个Spring Data模块，支持存储机制，虽然我们一般建议使用JAVA配置风格的配置。 
+在这个部分，你创建实例和为repository接口定义的bean。这样做的一个方法是使用Spring的名称空间，这是与每个Spring Data模块，支持存储机制，虽然我们一般建议使用JAVA配置风格的配置。
 
-#### 3.5.1. XML配置
+## 3.5.1. XML配置
 
 每一个Spring Data模块都包含repositories元素能够让你简单的基于base-package定义来进行Spring扫描。
 
 例 21. 通过XML来开启Spring Data repositories
-```xml
+
+```markup
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -21,6 +22,7 @@
 
 </beans:beans>
 ```
+
 在上面这个例子中，Spring会在`com.acme.repositories`和它的子包中扫描继承`Repository`或其子类的接口。框架会为这些找到的接口注册持久化`FactoryBean`（技术特定），为处理查询方法的调用创建合适的代理。每个bean注册的名称都是来自于接口名，所以一个名为`UserRepository`的接口注册名称是`userRepository`。`base-package`属性允许使用通配符，所以你可以定义一个被扫描包名的模式。
 
 **使用Filter**
@@ -30,7 +32,8 @@
 例如，要将某些接口从作为Repository的实例中排除，可以使用如下配置：
 
 例 22. 使用exclude-filter元素
-```xml
+
+```markup
 <repositories base-package="com.acme.repositories">
   <context:exclude-filter type="regex" expression=".*SomeRepository" />
 </repositories>
@@ -38,7 +41,7 @@
 
 这个例子排除了以SomeRepository结尾的接口被实例化。
 
-#### 3.5.2. Java配置
+## 3.5.2. Java配置
 
 也可以在一个Java配置的类使用`@Enable${store}Repositories`注解来触发repository框架。有关Spring容器的基于Java配置的介绍，请参阅参考文档[1](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#_footnote_1)。
 
@@ -60,10 +63,9 @@ class ApplicationConfiguration {
 
 > 该示例使用特定于JPA的注解，您可以根据实际使用的store模块做相应改变。这同样适用于`EntityManagerFactory`bean的定义。请参阅有关store特定配置的章节。
 
-#### 3.5.3. 独立使用
+## 3.5.3. 独立使用
 
-您还可以使用Spring容器之外的repository基础架构，例如CDI环境。你仍然需要在classpath中添加一些Spring库，但是通常来说你可以在代码中设置repositories。
-提供repository支持的Spring Data模块提供了一个RepositoryFactory（持久化的技术特定），使用如下所示。
+您还可以使用Spring容器之外的repository基础架构，例如CDI环境。你仍然需要在classpath中添加一些Spring库，但是通常来说你可以在代码中设置repositories。 提供repository支持的Spring Data模块提供了一个RepositoryFactory（持久化的技术特定），使用如下所示。
 
 例 24. repository工厂的独立使用
 
@@ -71,13 +73,4 @@ class ApplicationConfiguration {
 RepositoryFactorySupport factory = … // Instantiate factory here
 UserRepository repository = factory.getRepository(UserRepository.class);
 ```
-
-
-
-
-
-
-
-
-
 
